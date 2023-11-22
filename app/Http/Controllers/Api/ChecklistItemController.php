@@ -103,7 +103,23 @@ class ChecklistItemController extends Controller
      */
     public function update(Request $request, ChecklistItem $checklistItem)
     {
-        //
+        $data=Checklist::find($checklistItem);
+        $data = Checklist::update([
+
+            $data => $request->status,
+    ]);
+        return $data;
+    }
+    public function renamelistItem(Request $request, ChecklistItem $checklistItem)
+    {
+        $data=Checklist::find($checklistItem);
+        $data=Checklist::find($checklistItem);
+        $data = Checklist::update([
+
+            $data => $request->checklistId,
+            $data => $request->itemName,
+    ]);
+        return $data;
     }
 
     /**

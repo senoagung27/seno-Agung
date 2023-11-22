@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('itemName');
+            $table->string('status');
             $table->integer('checklistId');
             $table->timestamps();
         });
