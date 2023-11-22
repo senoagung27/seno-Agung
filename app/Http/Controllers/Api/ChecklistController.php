@@ -15,7 +15,9 @@ class ChecklistController extends Controller
      */
     public function index()
     {
-        //
+        $data = Checklist::get();
+
+        return response()->json(['status' => 200, 'data'=> $data], 200);
     }
 
     /**
@@ -36,7 +38,14 @@ class ChecklistController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = Checklist::create([
+
+            'name' => $request->name,
+    ]);
+    return response()->json([
+        'status' => 200,
+        'message' =>$data
+    ], 200);
     }
 
     /**
@@ -58,7 +67,17 @@ class ChecklistController extends Controller
      */
     public function edit(Checklist $checklist)
     {
-        //
+        $data = Checklist::find($checklist);
+        if(!$data){
+            return  response()->json([
+                'status' => 404,
+                'message' => 'Data Kosong'
+            ]);
+        }
+        return  response()->json([
+            'status' => 200,
+            'message' => $data
+        ]);
     }
 
     /**
@@ -79,8 +98,15 @@ class ChecklistController extends Controller
      * @param  \App\Models\Checklist  $checklist
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Checklist $checklist)
+    public function destroy(Checklist $checklistId)
     {
-        //
+        $data = Checklist::findOrFail($checklistId);
+
+        $data->delete();
+
+        return  response()->json([
+            'status' => 200,
+            'message' => 'Data Berhasil Dihapus !'
+        ]);
     }
 }

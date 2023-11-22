@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\ChecklistItem;
 use App\Http\Controllers\Controller;
+use App\Models\Checklist;
 
 class ChecklistItemController extends Controller
 {
@@ -13,9 +14,19 @@ class ChecklistItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($checklistId)
     {
-        //
+        $data = Checklist::find($checklistId);
+        if(!$data){
+            return  response()->json([
+                'status' => 404,
+                'message' => 'Data Kosong'
+            ]);
+        }
+        return  response()->json([
+            'status' => 200,
+            'message' => $data
+        ]);
     }
 
     /**
@@ -23,9 +34,9 @@ class ChecklistItemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request, $checklistId)
     {
-        //
+
     }
 
     /**
@@ -34,9 +45,17 @@ class ChecklistItemController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$checklistId)
     {
-        //
+        $data = Checklist::create([
+
+            $checklistId => $request->checklistId,
+            $checklistId => $request->itemName,
+    ]);
+    return response()->json([
+        'status' => 200,
+        'message' =>$data
+    ], 200);
     }
 
     /**
@@ -45,9 +64,23 @@ class ChecklistItemController extends Controller
      * @param  \App\Models\ChecklistItem  $checklistItem
      * @return \Illuminate\Http\Response
      */
-    public function show(ChecklistItem $checklistItem)
+    public function show(ChecklistItem $checklistItem,$checklistId)
     {
-        //
+        $data = Checklist::find($checklistId);
+        $data2 = ChecklistItem::find($checklistItem);
+        if(!$data){
+            return  response()->json([
+                'status' => 404,
+                'message' => 'Data Kosong'
+            ]);
+        }
+        return  response()->json([
+            'status' => 200,
+            'message' => [
+                $data,
+                $data2
+            ]
+        ]);
     }
 
     /**
@@ -81,6 +114,13 @@ class ChecklistItemController extends Controller
      */
     public function destroy(ChecklistItem $checklistItem)
     {
-        //
+        $data = Checklist::findOrFail($checklistItem);
+
+        $data->delete();
+
+        return  response()->json([
+            'status' => 200,
+            'message' => 'Data Berhasil Dihapus !'
+        ]);
     }
 }

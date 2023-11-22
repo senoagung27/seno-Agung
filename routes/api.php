@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\LogoutController;
 use App\Http\Controllers\Api\RegisterController;
 use App\Http\Controllers\Api\ChecklistController;
+use App\Http\Controllers\Api\ChecklistItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +28,12 @@ Route::get('/checklist',[ChecklistController::class, 'index']);
 Route::post('/checklist',[ChecklistController::class, 'store']);
 Route::delete('/checklist/{checklistId}',[ChecklistController::class, 'destroy']);
 
-Route::get('/checklist/{checklistId}/item',[ChecklistController::class, 'show']);
-Route::post('/checklist/{checklistId}/item',[ChecklistController::class, 'createlistItem']);
-Route::get('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistController::class, 'showlistItem']);
-Route::put('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistController::class, 'updatelistItem']);
-Route::delete('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistController::class, 'destorylistItem']);
-Route::put('/checklist/{checklistId}/item/rename/{checklistItemId}',[ChecklistController::class, 'renamelistItem']);
+Route::get('/checklist/{checklistId}/item',[ChecklistItemController::class, 'index']);
+Route::post('/checklist/{checklistId}/item',[ChecklistItemController::class, 'create']);
+Route::get('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'show']);
+Route::put('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'update']);
+Route::delete('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'destory']);
+Route::put('/checklist/{checklistId}/item/rename/{checklistItemId}',[ChecklistItemController::class, 'renamelistItem']);
 
 Route::post('/logout', LogoutController::class)->name('logout');
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

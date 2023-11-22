@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('checklists', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('itemName');
+            $table->integer('checklistId');
             $table->timestamps();
         });
     }
