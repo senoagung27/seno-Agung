@@ -2,11 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\LoginController;
-use App\Http\Controllers\Api\LogoutController;
-use App\Http\Controllers\Api\RegisterController;
-use App\Http\Controllers\Api\ChecklistController;
-use App\Http\Controllers\Api\ChecklistItemController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,24 +14,17 @@ use App\Http\Controllers\Api\ChecklistItemController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::post('/register', RegisterController::class)->name('register');
-Route::post('/login', LoginController::class)->name('login');
-// Route::middleware('auth:api')->get('/user', function (Request $request) {
-//     return $request->user();
 
-// });
-Route::get('/checklist',[ChecklistController::class, 'index']);
-Route::post('/checklist',[ChecklistController::class, 'store']);
-Route::delete('/checklist/{checklistId}',[ChecklistController::class, 'destroy']);
-
-Route::get('/checklist/{checklistId}/item',[ChecklistItemController::class, 'index']);
-Route::post('/checklist/{checklistId}/item',[ChecklistItemController::class, 'create']);
-Route::get('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'show']);
-Route::put('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'update']);
-Route::delete('/checklist/{checklistId}/item/{checklistItemId}',[ChecklistItemController::class, 'destory']);
-Route::put('/checklist/{checklistId}/item/rename/{checklistItemId}',[ChecklistItemController::class, 'renamelistItem']);
-
-Route::post('/logout', LogoutController::class)->name('logout');
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/refresh', [AuthController::class, 'refresh']);
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+});
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
